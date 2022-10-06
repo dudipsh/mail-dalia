@@ -1,14 +1,20 @@
-import { useMessagesContext } from '../context/messages-context'
+import { useMessagesContext } from '../../context/messages-context'
 import React, { useEffect, useState } from 'react'
-import { MessageList } from '../components/MessageList/MessageList'
-import NavBar from '../components/NavBar/NavBar'
-import { SearchBar } from '../components/SearchBar/SearchBar'
+import { MessageList } from '../../components/MessageList/MessageList'
+import NavBar from '../../components/NavBar/NavBar'
+import { SearchBar } from '../../components/SearchBar/SearchBar'
 import { ArrowBack } from '@mui/icons-material'
 import Card from '@mui/material/Card'
+import {useNavigate} from "react-router-dom";
 const navLinks = [{ url: '/', icon: <ArrowBack /> }]
 export const InboxPage = () => {
+  const navigate = useNavigate()
   const { messages, setMessages, isLoaded } = useMessagesContext()
   const [displayMessages, setDisplayMessages] = useState<any[]>([])
+
+  const onNavigate = (url: string) => {
+    navigate(url)
+  }
 
   useEffect(() => {
     setDisplayMessages(messages)
@@ -35,7 +41,7 @@ export const InboxPage = () => {
 
   return (
     <>
-      <NavBar navLinks={navLinks} />
+      <NavBar navLinks={navLinks} onNavigate={onNavigate} />
       {isLoaded ? (
         <>
           <Card sx={{ paddingTop: 8 }}>
